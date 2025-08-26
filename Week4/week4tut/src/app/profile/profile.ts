@@ -19,8 +19,8 @@ export class Profile implements OnInit {
 
   editUsername: string = '';
   editBirthdate: string = '';
-  editAge: number | null = null;
-  editEmail: string = '';
+  editAge: number = 0;
+
 
   constructor(private authService: AuthService, private router: Router) { }
 
@@ -43,7 +43,6 @@ export class Profile implements OnInit {
       this.editUsername = this.user.username;
       this.editBirthdate = this.user.birthdate;
       this.editAge = this.user.age;
-      this.editEmail = this.user.email;
     }
   }
 
@@ -61,22 +60,23 @@ export class Profile implements OnInit {
       const updatedUser: User = {
         username: this.editUsername,
         birthdate: this.editBirthdate,
-        age: this.editAge || 0,
-        email: this.editEmail,
-        valid: true // This field is not used in update but required by interface
+        age: this.editAge,
+        email: this.user.email,
+        valid: true 
       };
 
       this.authService.updateProfile(updatedUser).subscribe({
         next: (response) => {
-          this.user = response;
           this.authService.storeUser(response);
-          this.successMessage = 'Profile updated successfully!';
+          this.user = response;
           this.editMode = false;
+          this.successMessage = 'Profile updated successfully!';
 
           setTimeout(() => {
             this.successMessage = '';
           }, 3000);
         },
+
         error: (error) => {
           console.error('Profile update error:', error);
           alert('An error occurred while updating the profile. Please try again later.');
@@ -87,8 +87,8 @@ export class Profile implements OnInit {
 
   cancelEdit(): void {
     this.editMode = false;
+    this.loadEditValues();
     this.successMessage = '';
-    this.loadEditValues(); //Reset values to stored user data
   }
 
 }

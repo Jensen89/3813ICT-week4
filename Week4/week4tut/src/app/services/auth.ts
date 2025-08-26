@@ -17,22 +17,22 @@ export interface User {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/api/user'; // Replace with your backend API URL
+  private apiUrl = 'http://localhost:3000/api';
   private httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) 
 };
 
   constructor(private http: HttpClient, private router: Router) { }
 
   login(email: string, password: string): Observable<User> {
-    return this.http.post<User>(this.apiUrl, { email, password }, this.httpOptions);
+    return this.http.post<User>(`${this.apiUrl}/auth`, { email, password }, this.httpOptions);
   }
 
   updateProfile(user: User): Observable<User> {
-    return this.http.put<User>(`${this.apiUrl}/profile/update`, user, this.httpOptions);
+    return this.http.post<User>(`${this.apiUrl}/profile/update`, user, this.httpOptions);
   }
 
   storeUser(user: User): void {
-    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('currentUser', JSON.stringify(user));
   }
 
   getStoredUser(): User | null {
@@ -44,11 +44,11 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    return this.getStoredUser() !== null;
+    return localStorage.getItem('currentUser') !== null;
   }
 
   logout(): void {
-    localStorage.removeItem('user');
+    localStorage.removeItem('currentUser');
     this.router.navigate(['/login']);
   }
 

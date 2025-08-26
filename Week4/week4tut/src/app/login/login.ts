@@ -28,7 +28,7 @@ export class Login {
       next: (response) => {
         if (response.valid) {
           this.authService.storeUser(response);
-          console.log('Login successful');
+          console.log('Login successful', this.email);
 
           // Navigate to profile page on successful login
           this.router.navigate(['/profile']);

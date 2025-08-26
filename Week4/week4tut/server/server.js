@@ -30,6 +30,8 @@ const users = [
 app.post('/api/auth', (req, res) => {
     const { email, password } = req.body;
 
+    console.log('Login attempt for:', email);
+
     const user = users.find(u => u.email === email && u.password === password);
 
     if (user) {
@@ -49,7 +51,7 @@ app.post('/api/auth', (req, res) => {
 });
 
 //Update user profile route
-app.post('/api/updateProfile', (req, res) => {
+app.post('/api/profile/update', (req, res) => {
     const { email, username, birthdate, age } = req.body;
 
     const userIndex = users.findIndex(u => u.email === email);
@@ -59,21 +61,26 @@ app.post('/api/updateProfile', (req, res) => {
         users[userIndex] = birthdate;
         users[userIndex].age = age;
 
-        const updateUser = {
+        const updatedUser = {
             username: users[userIndex].username,
             birthdate: users[userIndex].birthdate,
             age: users[userIndex].age,
             email: users[userIndex].email,
             valid: true
         };
+        
+        console.log('Profile updated successfully for:', email);
 
-        res.json({ updateUser });
+        res.json({ updatedUser });
     } else {
         res.status(404).json({ error: 'User not found' });
     }
 });
 
+
 //Start server
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log('\n========================================');
+    console.log(`🚀 Server is running on http://localhost:${PORT}`);
+    console.log('========================================');
 });
