@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h4>Login</h4>
+      </div>
+      <div class="card-body">
+        <!-- Error Message Display -->
+        <div class="alert alert-danger" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+        
+        <!-- Login Form -->
+        <form (ngSubmit)="login()" class="login-form">
+          <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input 
+              type="email" 
+              class="form-control" 
+              id="email" 
+              [(ngModel)]="email" 
+              name="email"
+              placeholder="Enter email"
+              required>
+          </div>
+          
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input 
+              type="password" 
+              class="form-control" 
+              id="password" 
+              [(ngModel)]="password"
+              name="password" 
+              placeholder="Password"
+              required>
+          </div>
+          
+          <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
