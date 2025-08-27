@@ -58,7 +58,7 @@ app.post('/api/profile/update', (req, res) => {
 
     if (userIndex !== -1) {
         users[userIndex].username = username;
-        users[userIndex] = birthdate;
+        users[userIndex].birthdate = birthdate;
         users[userIndex].age = age;
 
         const updatedUser = {
@@ -71,7 +71,7 @@ app.post('/api/profile/update', (req, res) => {
         
         console.log('Profile updated successfully for:', email);
 
-        res.json({ updatedUser });
+        res.json(updatedUser);
     } else {
         res.status(404).json({ error: 'User not found' });
     }

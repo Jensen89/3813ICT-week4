@@ -56,6 +56,14 @@ export class Profile implements OnInit {
   }
 
   saveProfile(): void {
+    console.log('=== SAVE PROFILE CALLED ===');
+    console.log('Current edit values:', {
+      editUsername: this.editUsername,
+      editBirthdate: this.editBirthdate,
+      editAge: this.editAge
+    });
+
+
     if (this.user) {
       const updatedUser: User = {
         username: this.editUsername,
@@ -65,12 +73,18 @@ export class Profile implements OnInit {
         valid: true 
       };
 
+      console.log('Sending to server:', updatedUser);
+
       this.authService.updateProfile(updatedUser).subscribe({
         next: (response) => {
+          console.log('Server response:', response);
+
           this.authService.storeUser(response);
           this.user = response;
           this.editMode = false;
           this.successMessage = 'Profile updated successfully!';
+
+          console.log('Profile updated, new user data:', this.user);
 
           setTimeout(() => {
             this.successMessage = '';
@@ -90,5 +104,4 @@ export class Profile implements OnInit {
     this.loadEditValues();
     this.successMessage = '';
   }
-
 }
